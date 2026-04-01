@@ -1,13 +1,17 @@
+import { execFileSync } from 'node:child_process'
 import { execa } from 'execa'
-import { execSync_DEPRECATED } from './execSyncWrapper.js'
+
+function getWindowsWhereExe(): string {
+  return `${process.env.SystemRoot ?? 'C:\\Windows'}\\System32\\where.exe`
+}
 
 async function whichNodeAsync(command: string): Promise<string | null> {
   if (process.platform === 'win32') {
     // On Windows, use where.exe and return the first result
-    const result = await execa(`where.exe ${command}`, {
-      shell: true,
+    const result = await execa(getWindowsWhereExe(), [command], {
       stderr: 'ignore',
       reject: false,
+      windowsHide: true,
     })
     if (result.exitCode !== 0 || !result.stdout) {
       return null
@@ -33,9 +37,10 @@ async function whichNodeAsync(command: string): Promise<string | null> {
 function whichNodeSync(command: string): string | null {
   if (process.platform === 'win32') {
     try {
-      const result = execSync_DEPRECATED(`where.exe ${command}`, {
-        encoding: 'utf-8',
+      const result = execFileSync(getWindowsWhereExe(), [command], {
+        encoding: 'utf8',
         stdio: ['ignore', 'pipe', 'ignore'],
+        windowsHide: true,
       })
       const output = result.toString().trim()
       return output.split(/\r?\n/)[0] || null

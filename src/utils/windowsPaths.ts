@@ -1,24 +1,74 @@
+import { execFileSync } from 'node:child_process'
+import { existsSync } from 'node:fs'
 import memoize from 'lodash-es/memoize.js'
 import * as path from 'path'
 import * as pathWin32 from 'path/win32'
 import { getCwd } from './cwd.js'
 import { logForDebugging } from './debug.js'
-import { execSync_DEPRECATED } from './execSyncWrapper.js'
 import { memoizeWithLRU } from './memoize.js'
 import { getPlatform } from './platform.js'
 
 /**
- * Check if a file or directory exists on Windows using the dir command
- * @param path - The path to check
+ * Check if a file or directory exists on Windows without spawning cmd.exe.
+ * @param targetPath - The path to check
  * @returns true if the path exists, false otherwise
  */
-function checkPathExists(path: string): boolean {
+function checkPathExists(targetPath: string): boolean {
+  return existsSync(targetPath)
+}
+
+function getSystemExecutablePath(executable: string): string {
+  return pathWin32.join(process.env.SystemRoot ?? 'C:\\Windows', 'System32', executable)
+}
+
+function escapeRegex(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function queryRegistryValue(key: string, valueName: string): string | null {
   try {
-    execSync_DEPRECATED(`dir "${path}"`, { stdio: 'pipe' })
-    return true
+    const result = execFileSync(
+      getSystemExecutablePath('reg.exe'),
+      ['query', key, '/v', valueName],
+      {
+        stdio: ['ignore', 'pipe', 'ignore'],
+        encoding: 'utf8',
+        windowsHide: true,
+      },
+    )
+
+    const match = result.match(
+      new RegExp(`^\\s*${escapeRegex(valueName)}\\s+REG_\\w+\\s+(.*)$`, 'm'),
+    )
+    return match?.[1]?.trim().replace(/[\\\/]+$/, '') || null
   } catch {
-    return false
+    return null
   }
+}
+
+function findGitInstallPathFromRegistry(): string | null {
+  const registryCandidates: Array<[string, string]> = [
+    ['HKLM\\SOFTWARE\\GitForWindows', 'InstallPath'],
+    ['HKCU\\SOFTWARE\\GitForWindows', 'InstallPath'],
+    ['HKLM\\SOFTWARE\\WOW6432Node\\GitForWindows', 'InstallPath'],
+    [
+      'HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Git_is1',
+      'InstallLocation',
+    ],
+    [
+      'HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Git_is1',
+      'InstallLocation',
+    ],
+  ]
+
+  for (const [key, valueName] of registryCandidates) {
+    const installPath = queryRegistryValue(key, valueName)
+    if (installPath) {
+      return installPath
+    }
+  }
+
+  return null
 }
 
 /**
@@ -29,13 +79,19 @@ function checkPathExists(path: string): boolean {
 function findExecutable(executable: string): string | null {
   // For git, check common installation locations first
   if (executable === 'git') {
-    const defaultLocations = [
-      // check 64 bit before 32 bit
-      'C:\\Program Files\\Git\\cmd\\git.exe',
-      'C:\\Program Files (x86)\\Git\\cmd\\git.exe',
-      // intentionally don't look for C:\Program Files\Git\mingw64\bin\git.exe
-      // because that directory is the "raw" tools with no environment setup
-    ]
+    const installRoots = [
+      process.env.ProgramFiles
+        ? pathWin32.join(process.env.ProgramFiles, 'Git')
+        : null,
+      process.env['ProgramFiles(x86)']
+        ? pathWin32.join(process.env['ProgramFiles(x86)'], 'Git')
+        : null,
+      findGitInstallPathFromRegistry(),
+    ].filter((value): value is string => Boolean(value))
+
+    const defaultLocations = [...new Set(installRoots)].map(installRoot =>
+      pathWin32.join(installRoot, 'cmd', 'git.exe'),
+    )
 
     for (const location of defaultLocations) {
       if (checkPathExists(location)) {
@@ -46,10 +102,15 @@ function findExecutable(executable: string): string | null {
 
   // Fall back to where.exe
   try {
-    const result = execSync_DEPRECATED(`where.exe ${executable}`, {
-      stdio: 'pipe',
-      encoding: 'utf8',
-    }).trim()
+    const result = execFileSync(
+      getSystemExecutablePath('where.exe'),
+      [executable],
+      {
+        stdio: ['ignore', 'pipe', 'ignore'],
+        encoding: 'utf8',
+        windowsHide: true,
+      },
+    ).trim()
 
     // SECURITY: Filter out any results from the current directory
     // to prevent executing malicious git.bat/cmd/exe files

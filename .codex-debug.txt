@@ -1,0 +1,90 @@
+2026-04-01T02:54:37.248Z [DEBUG] MDM settings load completed in 33ms
+2026-04-01T02:54:37.271Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: C:\Program Files\ClaudeCode\managed-settings.json
+2026-04-01T02:54:37.273Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: E:\code\open-cluade-code\claude-code-haha\.claude\settings.json
+2026-04-01T02:54:37.274Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: E:\code\open-cluade-code\claude-code-haha\.claude\settings.local.json
+2026-04-01T02:54:37.274Z [DEBUG] CA certs: Config fallback - globalEnv keys: , settingsEnv keys: ANTHROPIC_AUTH_TOKEN,ANTHROPIC_BASE_URL,ANTHROPIC_DEFAULT_HAIKU_MODEL,ANTHROPIC_DEFAULT_OPUS_MODEL,ANTHROPIC_DEFAULT_SONNET_MODEL,ANTHROPIC_MODEL
+2026-04-01T02:54:37.309Z [DEBUG] [init] configureGlobalMTLS starting
+2026-04-01T02:54:37.310Z [DEBUG] [init] configureGlobalMTLS complete
+2026-04-01T02:54:37.310Z [DEBUG] [init] configureGlobalAgents starting
+2026-04-01T02:54:37.310Z [DEBUG] CA certs: useSystemCA=false, extraCertsPath=undefined
+2026-04-01T02:54:37.311Z [DEBUG] [init] configureGlobalAgents complete
+2026-04-01T02:54:37.641Z [DEBUG] Using bash path: "E:\software\Git\bin\bash.exe"
+2026-04-01T02:54:37.650Z [DEBUG] Error log sink initialized
+2026-04-01T02:54:37.659Z [DEBUG] [STARTUP] Loading MCP configs...
+2026-04-01T02:54:37.665Z [DEBUG] [STARTUP] Running setup()...
+2026-04-01T02:54:37.677Z [DEBUG] Loading skills from: managed=C:\Program Files\ClaudeCode\.claude\skills, user=C:\Users\18810\.claude\skills, project=[]
+2026-04-01T02:54:37.677Z [DEBUG] [bare] Skipping skill dir discovery (no --add-dir)
+2026-04-01T02:54:37.678Z [DEBUG] getSkills returning: 0 skill dir commands, 0 plugin skills, 5 bundled skills, 0 builtin plugin skills
+2026-04-01T02:54:37.680Z [DEBUG] Git remote URL: https://github.com/NanmiCoder/claude-code-haha.git
+2026-04-01T02:54:37.680Z [DEBUG] Parsed repository: github.com/NanmiCoder/claude-code-haha from URL: https://github.com/NanmiCoder/claude-code-haha.git
+2026-04-01T02:54:37.687Z [DEBUG] Error log sink initialized
+2026-04-01T02:54:37.688Z [DEBUG] [STARTUP] setup() completed in 23ms
+2026-04-01T02:54:37.688Z [DEBUG] Cleared CA certificates cache
+2026-04-01T02:54:37.688Z [DEBUG] Cleared mTLS configuration cache
+2026-04-01T02:54:37.689Z [DEBUG] Cleared proxy agent cache
+2026-04-01T02:54:37.689Z [DEBUG] CA certs: useSystemCA=false, extraCertsPath=undefined
+2026-04-01T02:54:37.691Z [DEBUG] [STARTUP] Loading commands and agents...
+2026-04-01T02:54:37.772Z [DEBUG] [STARTUP] Commands and agents loaded in 80ms
+2026-04-01T02:54:37.773Z [DEBUG] Skipping startup prefetches, last ran 1775012078s ago
+2026-04-01T02:54:37.774Z [DEBUG] [STARTUP] MCP configs resolved in 4ms (awaited at +115ms)
+2026-04-01T02:54:37.775Z [DEBUG] Cleared CA certificates cache
+2026-04-01T02:54:37.776Z [DEBUG] Cleared mTLS configuration cache
+2026-04-01T02:54:37.776Z [DEBUG] Cleared proxy agent cache
+2026-04-01T02:54:37.776Z [DEBUG] CA certs: useSystemCA=false, extraCertsPath=undefined
+2026-04-01T02:54:37.778Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-04-01T02:54:37.846Z [DEBUG] [Perfetto] initializePerfettoTracing called, env value: undefined
+2026-04-01T02:54:37.847Z [DEBUG] [3P telemetry] isTelemetryEnabled=false (CLAUDE_CODE_ENABLE_TELEMETRY=undefined)
+2026-04-01T02:54:37.914Z [DEBUG] Loaded 1 installed plugins from C:\Users\18810\.claude\plugins\installed_plugins.json
+2026-04-01T02:54:37.926Z [WARN] [3P telemetry] Event dropped (no event logger initialized): user_prompt
+2026-04-01T02:54:37.942Z [DEBUG] Loaded hooks from standard location for plugin ralph-wiggum: C:\Users\18810\.claude\plugins\marketplaces\claude-code-plugins\plugins\ralph-wiggum\hooks\hooks.json
+2026-04-01T02:54:37.943Z [DEBUG] Found 1 plugins (1 enabled, 0 disabled)
+2026-04-01T02:54:37.945Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-04-01T02:54:37.952Z [DEBUG] autocompact: tokens=1 threshold=167000 effectiveWindow=180000
+2026-04-01T02:54:37.958Z [DEBUG] Tool search disabled: ToolSearchTool is not available (may have been disallowed via disallowedTools).
+2026-04-01T02:54:37.963Z [DEBUG] [ToolSearch:optimistic] disabled: ANTHROPIC_BASE_URL=http://127.0.0.1:8045 is not a first-party Anthropic host. Set ENABLE_TOOL_SEARCH=true (or auto / auto:N) if your proxy forwards tool_reference blocks.
+2026-04-01T02:54:37.964Z [DEBUG] attribution header x-anthropic-billing-header: cc_version=999.0.0-local.d5a; cc_entrypoint=sdk-cli;
+2026-04-01T02:54:37.965Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-04-01T02:54:37.966Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-04-01T02:54:37.969Z [DEBUG] [API:request] Creating client, ANTHROPIC_CUSTOM_HEADERS present: false, has Authorization header: false
+2026-04-01T02:54:37.969Z [DEBUG] [API:auth] OAuth token check starting
+2026-04-01T02:54:37.970Z [DEBUG] [API:auth] OAuth token check complete
+2026-04-01T02:54:37.971Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-04-01T02:54:37.975Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-04-01T02:54:37.977Z [ERROR] API error (attempt 1/11): undefined Connection error.
+2026-04-01T02:54:38.507Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-04-01T02:54:38.509Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-04-01T02:54:38.511Z [ERROR] API error (attempt 2/11): undefined Connection error.
+2026-04-01T02:54:39.532Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-04-01T02:54:39.533Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-04-01T02:54:39.534Z [ERROR] API error (attempt 3/11): undefined Connection error.
+2026-04-01T02:54:41.922Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-04-01T02:54:41.923Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-04-01T02:54:41.925Z [ERROR] API error (attempt 4/11): undefined Connection error.
+2026-04-01T02:54:46.759Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-04-01T02:54:46.760Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-04-01T02:54:46.761Z [ERROR] API error (attempt 5/11): undefined Connection error.
+2026-04-01T02:54:56.191Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-04-01T02:54:56.192Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-04-01T02:54:56.193Z [ERROR] API error (attempt 6/11): undefined Connection error.
+2026-04-01T02:55:13.054Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-04-01T02:55:13.055Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-04-01T02:55:13.056Z [ERROR] API error (attempt 7/11): undefined Connection error.
+2026-04-01T02:55:46.611Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-04-01T02:55:46.614Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-04-01T02:55:46.615Z [ERROR] API error (attempt 8/11): undefined Connection error.
+2026-04-01T02:56:23.040Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-04-01T02:56:23.053Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-04-01T02:56:23.053Z [ERROR] API error (attempt 9/11): undefined Connection error.
+2026-04-01T02:57:00.516Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-04-01T02:57:00.517Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-04-01T02:57:00.518Z [ERROR] API error (attempt 10/11): undefined Connection error.
+2026-04-01T02:57:34.096Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-04-01T02:57:34.097Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-04-01T02:57:34.098Z [ERROR] API error (attempt 11/11): undefined Connection error.
+2026-04-01T02:57:34.100Z [ERROR] Error in API request: Connection error.
+2026-04-01T02:57:34.101Z [ERROR] Connection error details: code=ConnectionRefused, message=Unable to connect. Is the computer able to access the url?
+2026-04-01T02:57:34.103Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-04-01T02:57:34.109Z [DEBUG] Metrics export disabled by organization setting
+2026-04-01T02:57:34.110Z [DEBUG] BigQuery metrics exporter flush complete
+2026-04-01T02:57:34.110Z [DEBUG] BigQuery metrics exporter flush complete
+2026-04-01T02:57:34.110Z [DEBUG] BigQuery metrics exporter shutdown complete

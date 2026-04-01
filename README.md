@@ -47,6 +47,53 @@
 npm install
 ```
 
+Windows 首次使用还需要安装 Bun：
+
+```powershell
+powershell -c "irm bun.sh/install.ps1|iex"
+```
+
+Windows 还需要安装 Git for Windows（提供 `git-bash`）。程序会优先从 `PATH` 和注册表自动发现 `bash.exe`；如果你的 Git 安装在自定义目录且仍未识别，再手动设置：
+
+```powershell
+$env:CLAUDE_CODE_GIT_BASH_PATH = "C:\Program Files\Git\bin\bash.exe"
+```
+
+安装完成后请重新打开终端，再执行：
+
+```powershell
+bun --version
+npm install
+```
+
+如果当前终端已经打开且暂时识别不到 `bun`，可以先把 Bun 补到当前会话的 `PATH`：
+
+```powershell
+$env:Path += ";$env:USERPROFILE\.bun\bin"
+bun --version
+```
+
+如果重新打开终端后仍然识别不到 `bun`，把 `C:\Users\<你的用户名>\.bun\bin` 永久加入用户 `PATH`：
+
+```powershell
+[System.Environment]::SetEnvironmentVariable(
+  "Path",
+  [System.Environment]::GetEnvironmentVariable("Path", "User") + ";$env:USERPROFILE\.bun\bin",
+  [System.EnvironmentVariableTarget]::User
+)
+```
+
+如果希望像 `opencode` 一样在任意终端里直接输入 `claude-haha`，再把当前仓库的 `bin` 目录加入用户 `PATH`：
+
+```powershell
+$repoBin = (Resolve-Path .\bin).Path
+[System.Environment]::SetEnvironmentVariable(
+  "Path",
+  [System.Environment]::GetEnvironmentVariable("Path", "User") + ";$repoBin",
+  [System.EnvironmentVariableTarget]::User
+)
+```
+
 ### 2. 配置环境变量
 
 复制示例文件并填入你的 API Key：
@@ -64,6 +111,7 @@ ANTHROPIC_AUTH_TOKEN=sk-xxx       # Bearer Token（Authorization 头）
 
 # API 端点（可选，默认 Anthropic 官方）
 ANTHROPIC_BASE_URL=https://api.minimaxi.com/anthropic
+# 注意：这里填 API 根地址，不要额外加 /v1，Anthropic SDK 会自动拼接 /v1/messages 和 /v1/models
 
 # 模型配置
 ANTHROPIC_MODEL=MiniMax-M2.7-highspeed
@@ -82,17 +130,36 @@ CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
 ### 3. 启动
 
 ```bash
-# 交互 TUI 模式（完整界面）
+# macOS / Linux / Git Bash：交互 TUI 模式（完整界面）
 ./bin/claude-haha
 
-# 无头模式（单次问答）
+# macOS / Linux / Git Bash：无头模式（单次问答）
 ./bin/claude-haha -p "your prompt here"
 
-# 管道输入
+# macOS / Linux / Git Bash：管道输入
 echo "explain this code" | ./bin/claude-haha -p
 
-# 查看所有选项
+# macOS / Linux / Git Bash：查看所有选项
 ./bin/claude-haha --help
+```
+
+```powershell
+# Windows PowerShell / CMD：将仓库 bin 加入 PATH 后可直接调用
+claude-haha
+
+claude-haha --dangerously-skip-permissions
+
+# Windows PowerShell / CMD：无头模式（单次问答）
+claude-haha -p "your prompt here"
+
+# Windows PowerShell / CMD：查看所有选项
+claude-haha --help
+```
+
+如果你本机已经有 `~/.claude/settings.json`，其中的 `ANTHROPIC_BASE_URL` 可能会覆盖项目内 `.env` 的配置。排查时可以先用下面的命令忽略全局 settings，仅验证当前项目的环境变量：
+
+```powershell
+claude-haha --setting-sources=
 ```
 
 ---
@@ -103,7 +170,7 @@ echo "explain this code" | ./bin/claude-haha -p
 |------|------|------|
 | `ANTHROPIC_API_KEY` | 二选一 | API Key，通过 `x-api-key` 头发送 |
 | `ANTHROPIC_AUTH_TOKEN` | 二选一 | Auth Token，通过 `Authorization: Bearer` 头发送 |
-| `ANTHROPIC_BASE_URL` | 否 | 自定义 API 端点，默认 Anthropic 官方 |
+| `ANTHROPIC_BASE_URL` | 否 | 自定义 API 根地址，默认 Anthropic 官方；不要手动追加 `/v1` |
 | `ANTHROPIC_MODEL` | 否 | 默认模型 |
 | `ANTHROPIC_DEFAULT_SONNET_MODEL` | 否 | Sonnet 级别模型映射 |
 | `ANTHROPIC_DEFAULT_HAIKU_MODEL` | 否 | Haiku 级别模型映射 |

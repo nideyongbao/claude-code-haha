@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-cd "$ROOT_DIR"
+# 获取项目根目录的绝对路径（仅用于加载配置和 preload，不切换当前目录）
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 
 # Force recovery CLI (simple readline REPL, no Ink TUI)
 if [[ "${CLAUDE_CODE_FORCE_RECOVERY_CLI:-0}" == "1" ]]; then
-  exec bun --env-file=.env ./src/localRecoveryCli.ts "$@"
+  exec bun --preload="$ROOT_DIR/preload.ts" --env-file="$ROOT_DIR/.env" "$ROOT_DIR/src/localRecoveryCli.ts" "$@"
 fi
 
 # Default: full CLI with Ink TUI
-exec bun --env-file=.env ./src/entrypoints/cli.tsx "$@"
+# 使用绝对路径，保持当前工作目录不变
+exec bun --preload="$ROOT_DIR/preload.ts" --env-file="$ROOT_DIR/.env" "$ROOT_DIR/src/entrypoints/cli.tsx" "$@"
